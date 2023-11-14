@@ -1,22 +1,23 @@
-#### 为了更好的服务国内用户，renren-fast-vue仓库已迁移到Gitee，新的仓库地址 https://gitee.com/renrenio/renren-ui ，以后会在 https://gitee.com/renrenio/renren-ui 里面进行更新维护，感谢支持！ :smiley: 
-<br> 
+This is the frontend code of the 0-to-1-Microservices-Distributed-E-commerce-System-Template project.
 
 ## renren-fast-vue
-- renren-fast-vue基于vue、element-ui构建开发，实现[renren-fast](https://gitee.com/renrenio/renren-fast)后台管理前端功能，提供一套更优的前端解决方案
-- 前后端分离，通过token进行数据交互，可独立部署
-- 主题定制，通过scss变量统一一站式定制
-- 动态菜单，通过菜单管理统一管理访问路由
-- 数据切换，通过mock配置对接口数据／mock模拟数据进行切换
-- 发布时，可动态配置CDN静态资源／切换新旧版本
-- 演示地址：[http://demo.open.renren.io/renren-fast](http://demo.open.renren.io/renren-fast) (账号密码：admin/admin)
+
+- `renren-fast-vue` is developed based on Vue and Element-UI, designed to implement the frontend functionalities for the [renren-fast](https://gitee.com/renrenio/renren-fast) administration system, providing an optimized frontend solution.
+- It follows a frontend-backend separation, enabling data interaction through tokens and allowing independent deployment.
+- The system supports theme customization, providing a unified and comprehensive customization through SCSS variables.
+- Dynamic menu functionality is implemented, allowing centralized management of access routes through menu configurations.
+- The system facilitates data switching by configuring Mock to switch between interface data and mock simulated data.
+- During deployment, it allows dynamic configuration of CDN static resources and switching between new and old versions.
+- Demo Link: http://demo.open.renren.io/renren-fast (Username/Password: admin/admin)
 
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133529_ff15f192_63154.png "01.png")
 ![输入图片说明](https://images.gitee.com/uploads/images/2019/0305/133537_7a1b2d85_63154.png "02.png")
 
+## Documentation
 
-## 说明文档
-项目开发、部署等说明都在[wiki](https://github.com/renrenio/renren-fast-vue/wiki)中。
+Instructions for project development, deployment, and more can be found in the [wiki](https://github.com/renrenio/renren-fast-vue/wiki).
 
+## Release Notes
 
-## 更新日志
-每个版本的详细更改都记录在[release notes](https://github.com/renrenio/renren-fast-vue/releases)中。
+Detailed changes for each version are documented in the [release notes](https://github.com/renrenio/renren-fast-vue/releases).
+
