@@ -14,20 +14,20 @@ const http = axios.create({
 })
 
 /**
- * 请求拦截
+ * request interception
  */
 http.interceptors.request.use(config => {
-  config.headers['token'] = Vue.cookie.get('token') // 请求头带上token
+  config.headers['token'] = Vue.cookie.get('token') // request header with token
   return config
 }, error => {
   return Promise.reject(error)
 })
 
 /**
- * 响应拦截
+ * response interception
  */
 http.interceptors.response.use(response => {
-  if (response.data && response.data.code === 401) { // 401, token失效
+  if (response.data && response.data.code === 401) { // 401, token failure
     clearLoginInfo()
     router.push({ name: 'login' })
   }
@@ -37,18 +37,18 @@ http.interceptors.response.use(response => {
 })
 
 /**
- * 请求地址处理
- * @param {*} actionName action方法名称
+ * Request address processing
+ * @param {*} actionName action method name
  */
 http.adornUrl = (actionName) => {
-  // 非生产环境 && 开启代理, 接口前缀统一使用[/proxyApi/]前缀做代理拦截!
+  // In a non-production environment with proxy enabled, the unified prefix for interfaces will use [/proxyApi/] for proxy interception.
   return (process.env.NODE_ENV !== 'production' && process.env.OPEN_PROXY ? '/proxyApi/' : window.SITE_CONFIG.baseUrl) + actionName
 }
 
 /**
- * get请求参数处理
- * @param {*} params 参数对象
- * @param {*} openDefultParams 是否开启默认参数?
+ * get request parameter processing
+ * @param {*} params parameter object
+ * @param {*} openDefultParams Do you want to enable default parameters?
  */
 http.adornParams = (params = {}, openDefultParams = true) => {
   var defaults = {
@@ -58,10 +58,10 @@ http.adornParams = (params = {}, openDefultParams = true) => {
 }
 
 /**
- * post请求数据处理
- * @param {*} data 数据对象
- * @param {*} openDefultdata 是否开启默认数据?
- * @param {*} contentType 数据格式
+ * post request data processing
+ * @param {*} data data object
+ * @param {*} openDefultdata Do you want to enable default data?
+ * @param {*} contentType Data Format
  *  json: 'application/json; charset=utf-8'
  *  form: 'application/x-www-form-urlencoded; charset=utf-8'
  */
