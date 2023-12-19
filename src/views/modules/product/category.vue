@@ -59,30 +59,6 @@
 
 <script>
 export default {
-  data () {
-    return {
-      maxLevel: 1,
-      title: '',
-      dialogType: '', // update or add
-      menus: [],
-      dialogVisible: false,
-      category: {
-        catId: null,
-        name: '',
-        parentCid: 0,
-        catLevel: 0,
-        showStatus: 1,
-        sort: 0,
-        icon: '',
-        productUnit: ''
-      },
-      expandedKeys: [],
-      defaultProps: {
-        children: 'children',
-        label: 'name'
-      }
-    }
-  },
   methods: {
     getMenus () {
       this.$http({
@@ -99,14 +75,6 @@ export default {
       this.dialogVisible = true
       this.category.parentCid = data.catId
       this.category.catLevel = data.catLevel * 1 + 1
-      this.category = {
-        catId: null,
-        name: '',
-        showStatus: 1,
-        sort: 0,
-        icon: '',
-        productUnit: ''
-      }
     },
     update (node, data) {
       this.title = 'update category'
@@ -220,6 +188,30 @@ export default {
         return type === 'prev' || type === 'next'
       } else {
         return false
+      }
+    }
+  },
+  data () {
+    return {
+      updateNodes: [],
+      title: '',
+      dialogType: '', // update or add
+      menus: [],
+      dialogVisible: false,
+      category: {
+        catId: null,
+        name: '',
+        parentCid: 0,
+        catLevel: 0,
+        showStatus: 1,
+        sort: 0,
+        icon: '',
+        productUnit: ''
+      },
+      expandedKeys: [],
+      defaultProps: {
+        children: 'children',
+        label: 'name'
       }
     }
   },
