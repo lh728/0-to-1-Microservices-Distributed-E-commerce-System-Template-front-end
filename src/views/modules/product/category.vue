@@ -5,6 +5,8 @@
              :expand-on-click-node="false"
              :props="defaultProps"
              node-key="catId"
+             draggable
+             :allow-drop="allowDrop"
              show-checkbox>
       <span slot-scope="{ node, data }" class="custom-tree-node">
         <span>{{ node.label }}</span>
@@ -59,6 +61,7 @@
 export default {
   data () {
     return {
+      maxLevel: 1,
       title: '',
       dialogType: '', // update or add
       menus: [],
@@ -135,7 +138,7 @@ export default {
         method: 'post',
         data: this.$http.adornData({
           catId, name, icon, productUnit
-        },  false)
+        }, false)
       }).then(({data}) => {
         if (data && data.code === 0) {
           this.$message({
@@ -210,6 +213,14 @@ export default {
           message: 'cancel delete'
         })
       })
+    },
+    allowDrop (draggingNode, dropNode, type) {
+      // Restrict drag-and-drop to the same level only.
+      if (draggingNode.level === dropNode.level) {
+        return type === 'prev' || type === 'next'
+      } else {
+        return false
+      }
     }
   },
   created () {
