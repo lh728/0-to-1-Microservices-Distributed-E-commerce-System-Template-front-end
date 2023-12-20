@@ -1,5 +1,8 @@
 <template>
   <div>
+    <div>
+      <el-button type="danger" @click="batchDelete">Batch Delete</el-button>
+    </div>
     <el-tree :data="menus"
              :default-expanded-keys="expandedKeys"
              :expand-on-click-node="false"
@@ -7,6 +10,7 @@
              node-key="catId"
              draggable
              :allow-drop="allowDrop"
+             ref="categoryTree"
              show-checkbox>
       <span slot-scope="{ node, data }" class="custom-tree-node">
         <span>{{ node.label }}</span>
@@ -189,6 +193,42 @@ export default {
       } else {
         return false
       }
+    },
+    batchDelete () {
+      const ids = []
+      const list = this.$refs.categoryTree.store.getCheckedNodes()
+      for (let i = 0; i < list.length; i++) {
+        ids.push(list[i].catId)
+      }
+      this.$confirm('are you sure delete selected category?', 'HINT', {
+        confirmButtonText: 'yes',
+        cancelButtonText: 'no',
+        type: 'warning'
+      }).then(() => {
+        this.$http({
+          url: this.$http.adornUrl('/product/category/delete'),
+          method: 'post',
+          data: this.$http.adornData(ids, false)
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.$message({
+              message: 'delete success',
+              type: 'success',
+              duration: 500,
+              onClose: () => {
+                this.getMenus()
+              }
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'cancel delete'
+        })
+      })
     }
   },
   data () {
