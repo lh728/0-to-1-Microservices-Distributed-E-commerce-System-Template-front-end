@@ -14,18 +14,19 @@
       <el-input v-model="dataForm.descript" placeholder="descript"></el-input>
     </el-form-item>
     <el-form-item label="show_status" prop="showStatus">
-      <el-switch v-model="dataForm.showStatus" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+      <el-switch v-model="dataForm.showStatus" active-color="#13ce66"
+                 inactive-color="#ff4949" :active-value="1" :inactive-value="0"></el-switch>
     </el-form-item>
     <el-form-item label="Retrieving initials" prop="firstLetter">
       <el-input v-model="dataForm.firstLetter" placeholder="Retrieving initials"></el-input>
     </el-form-item>
     <el-form-item label="sort" prop="sort">
-      <el-input v-model="dataForm.sort" placeholder="sort"></el-input>
+      <el-input v-model.number="dataForm.sort" placeholder="sort"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">cancel</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">yea</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">yes</el-button>
     </span>
   </el-dialog>
 </template>
@@ -46,7 +47,7 @@ export default {
         descript: '',
         showStatus: '',
         firstLetter: '',
-        sort: ''
+        sort: 0
       },
       dataRule: {
         name: [
@@ -62,10 +63,28 @@ export default {
             { required: true, message: 'show_status[0-no display；1-display] can not be null', trigger: 'blur' }
         ],
         firstLetter: [
-            { required: true, message: 'Retrieving initials can not be null', trigger: 'blur' }
+          { validator: (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('firstLetter can not be null'))
+            } else if (!/^[a-zA-Z]$/.test(value)) {
+              callback(new Error('firstLetter must be a letter'))
+            } else {
+              callback()
+            }
+          },
+            trigger: 'blur' }
         ],
         sort: [
-            { required: true, message: 'sort can not be null', trigger: 'blur' }
+          { validator: (rule, value, callback) => {
+            if (value === '') {
+              callback(new Error('sort can not be null'))
+            } else if (!Number.isInteger(value) || value < 0) {
+              callback(new Error('must be an integer greater than 0'))
+            } else {
+              callback()
+            }
+          },
+            trigger: 'blur' }
         ]
       }
     }

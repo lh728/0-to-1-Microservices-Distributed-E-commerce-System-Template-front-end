@@ -39,6 +39,9 @@
         header-align="center"
         align="center"
         label="logo address">
+        <template slot-scope="scope">
+          <img width="100" height="80" :src="scope.row.logo" alt>
+        </template>
       </el-table-column>
       <el-table-column
         prop="descript"
