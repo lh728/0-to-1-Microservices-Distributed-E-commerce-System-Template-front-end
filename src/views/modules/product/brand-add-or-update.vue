@@ -1,9 +1,9 @@
 <template>
   <el-dialog
-    :title="!dataForm.brandId ? 'new' : 'update'"
+    :title="!dataForm.brandId ? 'new brand' : 'update'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="200px">
     <el-form-item label="name" prop="name">
       <el-input v-model="dataForm.name" placeholder="name"></el-input>
     </el-form-item>
@@ -13,8 +13,8 @@
     <el-form-item label="descript" prop="descript">
       <el-input v-model="dataForm.descript" placeholder="descript"></el-input>
     </el-form-item>
-    <el-form-item label="show_status[0-no display；1-display]" prop="showStatus">
-      <el-input v-model="dataForm.showStatus" placeholder="show_status[0-no display；1-display]"></el-input>
+    <el-form-item label="show_status" prop="showStatus">
+      <el-switch v-model="dataForm.showStatus" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
     </el-form-item>
     <el-form-item label="Retrieving initials" prop="firstLetter">
       <el-input v-model="dataForm.firstLetter" placeholder="Retrieving initials"></el-input>

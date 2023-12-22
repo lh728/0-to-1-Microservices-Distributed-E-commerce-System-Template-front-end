@@ -50,7 +50,11 @@
         prop="showStatus"
         header-align="center"
         align="center"
-        label="show_status[0-no display；1-display]">
+        label="show_status">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.showStatus" active-color="#13ce66" inactive-color="#ff4949"
+                     @change="updateBrandStatus(scope.row)" :active-value="1" :inactive-value="0"></el-switch>
+        </template>
       </el-table-column>
       <el-table-column
         prop="firstLetter"
@@ -133,6 +137,28 @@
             this.totalPage = 0
           }
           this.dataListLoading = false
+        })
+      },
+      updateBrandStatus (status) {
+        const {brandId, showStatus} = status
+        // send update request
+        this.$http({
+          url: this.$http.adornUrl('/product/brand/update'),
+          method: 'post',
+          data: this.$http.adornData({brandId, showStatus}, false)
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.$message({
+              message: 'success',
+              type: 'success',
+              duration: 1500,
+              onClose: () => {
+                this.getDataList()
+              }
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
         })
       },
       // page size
