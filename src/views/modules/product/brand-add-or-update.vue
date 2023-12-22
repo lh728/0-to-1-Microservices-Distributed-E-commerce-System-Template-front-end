@@ -8,7 +8,7 @@
       <el-input v-model="dataForm.name" placeholder="name"></el-input>
     </el-form-item>
     <el-form-item label="logo address" prop="logo">
-      <el-input v-model="dataForm.logo" placeholder="logo address"></el-input>
+      <single-upload v-model="dataForm.logo"></single-upload>
     </el-form-item>
     <el-form-item label="descript" prop="descript">
       <el-input v-model="dataForm.descript" placeholder="descript"></el-input>
@@ -31,99 +31,103 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        visible: false,
-        dataForm: {
-          brandId: 0,
-          name: '',
-          logo: '',
-          descript: '',
-          showStatus: '',
-          firstLetter: '',
-          sort: ''
-        },
-        dataRule: {
-          name: [
-            { required: true, message: 'name can not be null', trigger: 'blur' }
-          ],
-          logo: [
-            { required: true, message: 'logo address can not be null', trigger: 'blur' }
-          ],
-          descript: [
-            { required: true, message: 'descript can not be null', trigger: 'blur' }
-          ],
-          showStatus: [
-            { required: true, message: 'show_status[0-no display；1-display] can not be null', trigger: 'blur' }
-          ],
-          firstLetter: [
-            { required: true, message: 'Retrieving initials can not be null', trigger: 'blur' }
-          ],
-          sort: [
-            { required: true, message: 'sort can not be null', trigger: 'blur' }
-          ]
-        }
-      }
-    },
-    methods: {
-      init (id) {
-        this.dataForm.brandId = id || 0
-        this.visible = true
-        this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields()
-          if (this.dataForm.brandId) {
-            this.$http({
-              url: this.$http.adornUrl(`/product/brand/info/${this.dataForm.brandId}`),
-              method: 'get',
-              params: this.$http.adornParams()
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.dataForm.name = data.brand.name
-                this.dataForm.logo = data.brand.logo
-                this.dataForm.descript = data.brand.descript
-                this.dataForm.showStatus = data.brand.showStatus
-                this.dataForm.firstLetter = data.brand.firstLetter
-                this.dataForm.sort = data.brand.sort
-              }
-            })
-          }
-        })
+import singleUpload from '@/components/upload/singleUpload'
+export default {
+  components: {
+    singleUpload
+  },
+  data () {
+    return {
+      visible: false,
+      dataForm: {
+        brandId: 0,
+        name: '',
+        logo: '',
+        descript: '',
+        showStatus: '',
+        firstLetter: '',
+        sort: ''
       },
-      // 表单提交
-      dataFormSubmit () {
-        this.$refs['dataForm'].validate((valid) => {
-          if (valid) {
-            this.$http({
-              url: this.$http.adornUrl(`/product/brand/${!this.dataForm.brandId ? 'save' : 'update'}`),
-              method: 'post',
-              data: this.$http.adornData({
-                'brandId': this.dataForm.brandId || undefined,
-                'name': this.dataForm.name,
-                'logo': this.dataForm.logo,
-                'descript': this.dataForm.descript,
-                'showStatus': this.dataForm.showStatus,
-                'firstLetter': this.dataForm.firstLetter,
-                'sort': this.dataForm.sort
-              })
-            }).then(({data}) => {
-              if (data && data.code === 0) {
-                this.$message({
-                  message: 'success',
-                  type: 'success',
-                  duration: 1500,
-                  onClose: () => {
-                    this.visible = false
-                    this.$emit('refreshDataList')
-                  }
-                })
-              } else {
-                this.$message.error(data.msg)
-              }
-            })
-          }
-        })
+      dataRule: {
+        name: [
+            { required: true, message: 'name can not be null', trigger: 'blur' }
+        ],
+        logo: [
+            { required: true, message: 'logo address can not be null', trigger: 'blur' }
+        ],
+        descript: [
+            { required: true, message: 'descript can not be null', trigger: 'blur' }
+        ],
+        showStatus: [
+            { required: true, message: 'show_status[0-no display；1-display] can not be null', trigger: 'blur' }
+        ],
+        firstLetter: [
+            { required: true, message: 'Retrieving initials can not be null', trigger: 'blur' }
+        ],
+        sort: [
+            { required: true, message: 'sort can not be null', trigger: 'blur' }
+        ]
       }
     }
+  },
+  methods: {
+    init (id) {
+      this.dataForm.brandId = id || 0
+      this.visible = true
+      this.$nextTick(() => {
+        this.$refs['dataForm'].resetFields()
+        if (this.dataForm.brandId) {
+          this.$http({
+            url: this.$http.adornUrl(`/product/brand/info/${this.dataForm.brandId}`),
+            method: 'get',
+            params: this.$http.adornParams()
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.dataForm.name = data.brand.name
+              this.dataForm.logo = data.brand.logo
+              this.dataForm.descript = data.brand.descript
+              this.dataForm.showStatus = data.brand.showStatus
+              this.dataForm.firstLetter = data.brand.firstLetter
+              this.dataForm.sort = data.brand.sort
+            }
+          })
+        }
+      })
+    },
+      // 表单提交
+    dataFormSubmit () {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.$http({
+            url: this.$http.adornUrl(`/product/brand/${!this.dataForm.brandId ? 'save' : 'update'}`),
+            method: 'post',
+            data: this.$http.adornData({
+              'brandId': this.dataForm.brandId || undefined,
+              'name': this.dataForm.name,
+              'logo': this.dataForm.logo,
+              'descript': this.dataForm.descript,
+              'showStatus': this.dataForm.showStatus,
+              'firstLetter': this.dataForm.firstLetter,
+              'sort': this.dataForm.sort
+            })
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: 'success',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.visible = false
+                  this.$emit('refreshDataList')
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
+        }
+      })
+    }
   }
+}
 </script>
