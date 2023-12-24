@@ -101,6 +101,7 @@ import AddOrUpdate from './attrgroup-add-or-update'
 export default {
   data () {
     return {
+      catId: 0,
       dataForm: {
         key: ''
       },
@@ -121,7 +122,7 @@ export default {
     getDataList () {
       this.dataListLoading = true
       this.$http({
-        url: this.$http.adornUrl('/product/attrgroup/list'),
+        url: this.$http.adornUrl(`/product/attrgroup/list/${this.catId}`),
         method: 'get',
         params: this.$http.adornParams({
           'page': this.pageIndex,
@@ -158,7 +159,10 @@ export default {
       })
     },
     handleTreeNodeClick (data, node, instance) {
-
+      if (node.level === 3) {
+        this.catId = data.catId
+        this.getDataList()
+      }
     },
     deleteHandle (id) {
       var ids = id ? [id] : this.dataListSelections.map(item => {
