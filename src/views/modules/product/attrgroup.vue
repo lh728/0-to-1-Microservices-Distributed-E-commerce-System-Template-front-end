@@ -6,7 +6,7 @@
       </el-col>
       <el-col :span="18">
         <div class="mod-config">
-          <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
+          <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()" >
             <el-form-item>
               <el-input v-model="dataForm.key" placeholder="attr name" clearable></el-input>
             </el-form-item>

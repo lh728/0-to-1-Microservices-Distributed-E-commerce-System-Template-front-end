@@ -3,7 +3,7 @@
     :title="!dataForm.attrGroupId ? 'new' : 'update'"
     :close-on-click-modal="false"
     :visible.sync="visible">
-    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="150px">
     <el-form-item label="attr_group_name" prop="attrGroupName">
       <el-input v-model="dataForm.attrGroupName" placeholder="attr_group_name"></el-input>
     </el-form-item>
@@ -17,12 +17,12 @@
       <el-input v-model="dataForm.icon" placeholder="group icon"></el-input>
     </el-form-item>
     <el-form-item label="catelog_id" prop="catelogId">
-      <el-input v-model="dataForm.catelogId" placeholder="catelog_id"></el-input>
+      <el-cascader :options="menus" :props="props"  v-model="dataForm.catelogIds" placeholder="catelog_id"></el-cascader>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
       <el-button @click="visible = false">cancel</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">yes</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">save</el-button>
     </span>
   </el-dialog>
 </template>
@@ -38,7 +38,14 @@
           sort: '',
           descript: '',
           icon: '',
-          catelogId: ''
+          catelogId: 0,
+          catelogIds: []
+        },
+        menus: [],
+        props: {
+          value: 'catId',
+          label: 'name',
+          children: 'children'
         },
         dataRule: {
           attrGroupName: [
@@ -59,7 +66,18 @@
         }
       }
     },
+    created () {
+      this.getMenus()
+    },
     methods: {
+      getMenus () {
+        this.$http({
+          url: this.$http.adornUrl('/product/category/list/tree'),
+          method: 'get'
+        }).then(({data}) => {
+          this.menus = data.page
+        })
+      },
       init (id) {
         this.dataForm.attrGroupId = id || 0
         this.visible = true
@@ -94,7 +112,7 @@
                 'sort': this.dataForm.sort,
                 'descript': this.dataForm.descript,
                 'icon': this.dataForm.icon,
-                'catelogId': this.dataForm.catelogId
+                'catelogId': this.dataForm.catelogIds[this.dataForm.catelogIds.length - 1]
               })
             }).then(({data}) => {
               if (data && data.code === 0) {
