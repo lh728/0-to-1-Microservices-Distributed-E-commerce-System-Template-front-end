@@ -94,7 +94,7 @@
       </el-table>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cateRelationDialogVisible = false">CANCEL</el-button>
-        <el-button type="primary" @click="cateRelationDialogVisible = false">YES</el-button>
+        <el-button type="primary" @click="cateRelationDialogVisible = false">SAVE</el-button>
       </span>
     </el-dialog>
   </div>
@@ -132,7 +132,6 @@ export default {
   },
   methods: {
     addCatelogSelect () {
-      // {"brandId":1,"catelogId":2}
       this.popCatelogSelectVisible = false
       this.$http({
         url: this.$http.adornUrl('/product/categorybrandrelation/save'),
@@ -164,10 +163,9 @@ export default {
           brandId: this.brandId
         })
       }).then(({ data }) => {
-        this.cateRelationTableData = data.data
+        this.cateRelationTableData = data.page
       })
     },
-    // 获取数据列表
     getDataList () {
       this.dataListLoading = true
       this.$http({
@@ -190,7 +188,6 @@ export default {
       })
     },
     updateBrandStatus (status) {
-      // send update request
       this.$http({
         url: this.$http.adornUrl('/product/brand/update'),
         method: 'post',
@@ -229,7 +226,7 @@ export default {
       })
     },
     deleteHandle (id) {
-      var ids = id
+      let ids = id
         ? [id]
         : this.dataListSelections.map(item => {
           return item.brandId
