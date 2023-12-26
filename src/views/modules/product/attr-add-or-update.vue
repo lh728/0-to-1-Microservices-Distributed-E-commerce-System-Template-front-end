@@ -1,51 +1,49 @@
 <template>
   <el-dialog
-    :title="!dataForm.id ? '新增' : '修改'"
+    :title="!dataForm.id ? 'NEW' : 'UPDATE'"
     :close-on-click-modal="false"
     :visible.sync="visible"
     @closed="dialogClose"
   >
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" label-width="120px">
-      <!--       @keyup.enter.native="dataFormSubmit()" -->
-      <el-form-item label="属性名" prop="attrName">
-        <el-input v-model="dataForm.attrName" placeholder="属性名"></el-input>
+      <el-form-item label="attrName" prop="attrName">
+        <el-input v-model="dataForm.attrName" placeholder="attrName"></el-input>
       </el-form-item>
-      <el-form-item label="属性类型" prop="attrType">
-        <el-select v-model="dataForm.attrType" placeholder="请选择">
-          <el-option label="规格参数" :value="1"></el-option>
-          <el-option label="销售属性" :value="0"></el-option>
+      <el-form-item label="attrType" prop="attrType">
+        <el-select v-model="dataForm.attrType" placeholder="PLEASE SELECT">
+          <el-option label="Specification parameters" :value="1"></el-option>
+          <el-option label="Sale attribute" :value="0"></el-option>
         </el-select>
       </el-form-item>
 
-      <el-form-item label="值类型" prop="valueType">
+      <el-form-item label="valueType" prop="valueType">
         <el-switch
           v-model="dataForm.valueType"
-          active-text="允许多个值"
-          inactive-text="只能单个值"
+          active-text="Multiple values"
+          inactive-text="Single value"
           active-color="#13ce66"
           inactive-color="#ff4949"
           :inactive-value="0"
           :active-value="1"
         ></el-switch>
       </el-form-item>
-      <el-form-item label="可选值" prop="valueSelect">
-        <!-- <el-input v-model="dataForm.valueSelect"></el-input> -->
+      <el-form-item label="valueSelect" prop="valueSelect">
         <el-select
           v-model="dataForm.valueSelect"
           multiple
           filterable
           allow-create
-          placeholder="请输入内容"
+          placeholder="Please enter the value and press Enter to add"
         ></el-select>
       </el-form-item>
-      <el-form-item label="属性图标" prop="icon">
-        <el-input v-model="dataForm.icon" placeholder="属性图标"></el-input>
+      <el-form-item label="icon" prop="icon">
+        <el-input v-model="dataForm.icon" placeholder="icon"></el-input>
       </el-form-item>
-      <el-form-item label="所属分类" prop="catelogId">
+      <el-form-item label="catelogId" prop="catelogId">
         <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
       </el-form-item>
-      <el-form-item label="所属分组" prop="attrGroupId" v-if="type == 1">
-        <el-select ref="groupSelect" v-model="dataForm.attrGroupId" placeholder="请选择">
+      <el-form-item label="attrGroupId" prop="attrGroupId" v-if="type === 1">
+        <el-select ref="groupSelect" v-model="dataForm.attrGroupId" placeholder="please select">
           <el-option
             v-for="item in attrGroups"
             :key="item.attrGroupId"
@@ -54,7 +52,7 @@
           ></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="可检索" prop="searchType" v-if="type == 1">
+      <el-form-item label="searchType" prop="searchType" v-if="type === 1">
         <el-switch
           v-model="dataForm.searchType"
           active-color="#13ce66"
@@ -63,7 +61,7 @@
           :inactive-value="0"
         ></el-switch>
       </el-form-item>
-      <el-form-item label="快速展示" prop="showDesc" v-if="type == 1">
+      <el-form-item label="showDesc" prop="showDesc" v-if="type === 1">
         <el-switch
           v-model="dataForm.showDesc"
           active-color="#13ce66"
@@ -72,7 +70,7 @@
           :inactive-value="0"
         ></el-switch>
       </el-form-item>
-      <el-form-item label="启用状态" prop="enable">
+      <el-form-item label="enable" prop="enable">
         <el-switch
           v-model="dataForm.enable"
           active-color="#13ce66"
@@ -83,8 +81,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button @click="visible = false">CANCEL</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">SAVE</el-button>
     </span>
   </el-dialog>
 </template>
@@ -112,50 +110,50 @@ export default {
       attrGroups: [],
       dataRule: {
         attrName: [
-          { required: true, message: '属性名不能为空', trigger: 'blur' }
+          { required: true, message: 'attr name can not be null', trigger: 'blur' }
         ],
         searchType: [
           {
             required: true,
-            message: '是否需要检索不能为空',
+            message: 'searchType can not be null',
             trigger: 'blur'
           }
         ],
         valueType: [
           {
             required: true,
-            message: '值类型不能为空',
+            message: 'valueType can not be null',
             trigger: 'blur'
           }
         ],
         icon: [
-          { required: true, message: '属性图标不能为空', trigger: 'blur' }
+          { required: true, message: 'icon can not be null', trigger: 'blur' }
         ],
         attrType: [
           {
             required: true,
-            message: '属性类型不能为空',
+            message: 'attrType can not be null',
             trigger: 'blur'
           }
         ],
         enable: [
           {
             required: true,
-            message: '启用状态不能为空',
+            message: 'enable can not be null',
             trigger: 'blur'
           }
         ],
         catelogId: [
           {
             required: true,
-            message: '需要选择正确的三级分类数据',
+            message: 'catelogId can not be null',
             trigger: 'blur'
           }
         ],
         showDesc: [
           {
             required: true,
-            message: '快速展示不能为空',
+            message: 'showDesc can not be null',
             trigger: 'blur'
           }
         ]
@@ -170,12 +168,10 @@ export default {
   },
   watch: {
     catelogPath (path) {
-      // 监听到路径变化需要查出这个三级分类的分组信息
-      console.log('路径变了', path)
       this.attrGroups = []
       this.dataForm.attrGroupId = ''
       this.dataForm.catelogId = path[path.length - 1]
-      if (path && path.length == 3) {
+      if (path && path.length === 3) {
         this.$http({
           url: this.$http.adornUrl(
             `/product/attrgroup/list/${path[path.length - 1]}`
@@ -189,10 +185,10 @@ export default {
             this.$message.error(data.msg)
           }
         })
-      } else if (path.length == 0) {
+      } else if (path.length === 0) {
         this.dataForm.catelogId = ''
       } else {
-        this.$message.error('请选择正确的分类')
+        this.$message.error('Please select the third level category')
         this.dataForm.catelogId = ''
       }
     }
@@ -223,8 +219,6 @@ export default {
               this.dataForm.enable = data.attr.enable
               this.dataForm.catelogId = data.attr.catelogId
               this.dataForm.showDesc = data.attr.showDesc
-              // attrGroupId
-              // catelogPath
               this.catelogPath = data.attr.catelogPath
               this.$nextTick(() => {
                 this.dataForm.attrGroupId = data.attr.attrGroupId
@@ -234,7 +228,6 @@ export default {
         }
       })
     },
-    // 表单提交
     dataFormSubmit () {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
@@ -259,7 +252,7 @@ export default {
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
-                message: '操作成功',
+                message: 'success',
                 type: 'success',
                 duration: 1500,
                 onClose: () => {
@@ -274,7 +267,6 @@ export default {
         }
       })
     },
-    // dialogClose
     dialogClose () {
       this.catelogPath = []
     }

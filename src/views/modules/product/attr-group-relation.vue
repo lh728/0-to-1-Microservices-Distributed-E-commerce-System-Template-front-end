@@ -1,14 +1,14 @@
 <template>
   <div>
     <el-dialog :close-on-click-modal="false" :visible.sync="visible" @closed="dialogClose">
-      <el-dialog width="40%" title="选择属性" :visible.sync="innerVisible" append-to-body>
+      <el-dialog width="40%" title="Choose Attribute" :visible.sync="innerVisible" append-to-body>
         <div>
           <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
             <el-form-item>
-              <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+              <el-input v-model="dataForm.key" placeholder="Attribute Name" clearable></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button @click="getDataList()">查询</el-button>
+              <el-button @click="getDataList()">Search</el-button>
             </el-form-item>
           </el-form>
           <el-table
@@ -19,10 +19,11 @@
             style="width: 100%;"
           >
             <el-table-column type="selection" header-align="center" align="center"></el-table-column>
-            <el-table-column prop="attrId" header-align="center" align="center" label="属性id"></el-table-column>
-            <el-table-column prop="attrName" header-align="center" align="center" label="属性名"></el-table-column>
-            <el-table-column prop="icon" header-align="center" align="center" label="属性图标"></el-table-column>
-            <el-table-column prop="valueSelect" header-align="center" align="center" label="可选值列表"></el-table-column>
+            <el-table-column prop="attrId" header-align="center" align="center" label="attrId"></el-table-column>
+            <el-table-column prop="attrName" header-align="center" align="center" label="attrName"></el-table-column>
+            <el-table-column prop="icon" header-align="center" align="center" label="icon"></el-table-column>
+            <el-table-column prop="valueSelect" header-align="center" align="center"
+                             label="valueSelect"></el-table-column>
           </el-table>
           <el-pagination
             @size-change="sizeChangeHandle"
@@ -35,18 +36,19 @@
           ></el-pagination>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="innerVisible = false">取 消</el-button>
-          <el-button type="primary" @click="submitAddRealtion">确认新增</el-button>
+          <el-button @click="innerVisible = false">CANCEL</el-button>
+          <el-button type="primary" @click="submitAddRealtion">SAVE</el-button>
         </div>
       </el-dialog>
       <el-row>
         <el-col :span="24">
-          <el-button type="primary" @click="addRelation">新建关联</el-button>
+          <el-button type="primary" @click="addRelation">NEW RELATION</el-button>
           <el-button
             type="danger"
             @click="batchDeleteRelation"
             :disabled="dataListSelections.length <= 0"
-          >批量删除</el-button>
+          >BATCH DEL
+          </el-button>
           <!--  -->
           <el-table
             :data="relationAttrs"
@@ -56,23 +58,23 @@
           >
             <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
             <el-table-column prop="attrId" label="#"></el-table-column>
-            <el-table-column prop="attrName" label="属性名"></el-table-column>
-            <el-table-column prop="valueSelect" label="可选值">
+            <el-table-column prop="attrName" label="attrName"></el-table-column>
+            <el-table-column prop="valueSelect" label="valueSelect">
               <template slot-scope="scope">
                 <el-tooltip placement="top">
                   <div slot="content">
                     <span v-for="(i,index) in scope.row.valueSelect.split(';')" :key="index">
-                      {{i}}
-                      <br />
+                      {{ i }}
+                      <br/>
                     </span>
                   </div>
-                  <el-tag>{{scope.row.valueSelect.split(";")[0]+" ..."}}</el-tag>
+                  <el-tag>{{ scope.row.valueSelect.split(';')[0] + ' ...' }}</el-tag>
                 </el-tooltip>
               </template>
             </el-table-column>
-            <el-table-column fixed="right" header-align="center" align="center" label="操作">
+            <el-table-column fixed="right" header-align="center" align="center" label="ACTION">
               <template slot-scope="scope">
-                <el-button type="text" size="small" @click="relationRemove(scope.row.attrId)">移除</el-button>
+                <el-button type="text" size="small" @click="relationRemove(scope.row.attrId)">REMOVE</el-button>
               </template>
             </el-table-column>
           </el-table>
@@ -83,15 +85,10 @@
 </template>
 
 <script>
-//这里可以导入其他文件（比如：组件，工具js，第三方插件js，json文件，图片文件等等）
-//例如：import 《组件名称》 from '《组件路径》';
-
 export default {
-  //import引入的组件需要注入到对象中才能使用
   components: {},
   props: {},
-  data() {
-    //这里存放数据
+  data () {
     return {
       attrGroupId: 0,
       visible: false,
@@ -99,7 +96,7 @@ export default {
       relationAttrs: [],
       dataListSelections: [],
       dataForm: {
-        key: ""
+        key: ''
       },
       dataList: [],
       pageIndex: 1,
@@ -107,135 +104,125 @@ export default {
       totalPage: 0,
       dataListLoading: false,
       innerdataListSelections: []
-    };
+    }
   },
-  //计算属性 类似于data概念
   computed: {},
-  //监控data中的数据变化
   watch: {},
-  //方法集合
   methods: {
-    selectionChangeHandle(val) {
-      this.dataListSelections = val;
+    selectionChangeHandle (val) {
+      this.dataListSelections = val
     },
-    innerSelectionChangeHandle(val) {
-      this.innerdataListSelections = val;
+    innerSelectionChangeHandle (val) {
+      this.innerdataListSelections = val
     },
-    addRelation() {
-      this.getDataList();
-      this.innerVisible = true;
+    addRelation () {
+      this.getDataList()
+      this.innerVisible = true
     },
-    batchDeleteRelation(val) {
-      let postData = [];
+    batchDeleteRelation (val) {
+      let postData = []
       this.dataListSelections.forEach(item => {
-        postData.push({ attrId: item.attrId, attrGroupId: this.attrGroupId });
-      });
+        postData.push({attrId: item.attrId, attrGroupId: this.attrGroupId})
+      })
       this.$http({
-        url: this.$http.adornUrl("/product/attrgroup/attr/relation/delete"),
-        method: "post",
+        url: this.$http.adornUrl('/product/attrgroup/attr/relation/delete'),
+        method: 'post',
         data: this.$http.adornData(postData, false)
-      }).then(({ data }) => {
-        if (data.code == 0) {
-          this.$message({ type: "success", message: "删除成功" });
-          this.init(this.attrGroupId);
+      }).then(({data}) => {
+        if (data.code === 0) {
+          this.$message({type: 'success', message: 'success'})
+          this.init(this.attrGroupId)
         } else {
-          this.$message({ type: "error", message: data.msg });
+          this.$message({type: 'error', message: data.msg})
         }
-      });
+      })
     },
-    //移除关联
-    relationRemove(attrId) {
-      let data = [];
-      data.push({ attrId, attrGroupId: this.attrGroupId });
+    relationRemove (attrId) {
+      let data = []
+      data.push({attrId, attrGroupId: this.attrGroupId})
       this.$http({
-        url: this.$http.adornUrl("/product/attrgroup/attr/relation/delete"),
-        method: "post",
+        url: this.$http.adornUrl('/product/attrgroup/attr/relation/delete'),
+        method: 'post',
         data: this.$http.adornData(data, false)
-      }).then(({ data }) => {
-        if (data.code == 0) {
-          this.$message({ type: "success", message: "删除成功" });
-          this.init(this.attrGroupId);
+      }).then(({data}) => {
+        if (data.code === 0) {
+          this.$message({type: 'success', message: 'success'})
+          this.init(this.attrGroupId)
         } else {
-          this.$message({ type: "error", message: data.msg });
+          this.$message({type: 'error', message: data.msg})
         }
-      });
+      })
     },
-    submitAddRealtion() {
-      this.innerVisible = false;
-      //准备数据
-      console.log("准备新增的数据", this.innerdataListSelections);
+    submitAddRealtion () {
+      this.innerVisible = false
       if (this.innerdataListSelections.length > 0) {
-        let postData = [];
+        let postData = []
         this.innerdataListSelections.forEach(item => {
-          postData.push({ attrId: item.attrId, attrGroupId: this.attrGroupId });
-        });
+          postData.push({attrId: item.attrId, attrGroupId: this.attrGroupId})
+        })
         this.$http({
-          url: this.$http.adornUrl("/product/attrgroup/attr/relation"),
-          method: "post",
+          url: this.$http.adornUrl('/product/attrgroup/attr/relation'),
+          method: 'post',
           data: this.$http.adornData(postData, false)
-        }).then(({ data }) => {
-          if (data.code == 0) {
-            this.$message({ type: "success", message: "新增关联成功" });
+        }).then(({data}) => {
+          if (data.code === 0) {
+            this.$message({type: 'success', message: 'success'})
           }
-          this.$emit("refreshData");
-          this.init(this.attrGroupId);
-        });
+          this.$emit('refreshData')
+          this.init(this.attrGroupId)
+        })
       } else {
       }
     },
-    init(id) {
-      this.attrGroupId = id || 0;
-      this.visible = true;
+    init (id) {
+      this.attrGroupId = id || 0
+      this.visible = true
       this.$http({
         url: this.$http.adornUrl(
-          "/product/attrgroup/" + this.attrGroupId + "/attr/relation"
+          '/product/attrgroup/' + this.attrGroupId + '/attr/relation'
         ),
-        method: "get",
+        method: 'get',
         params: this.$http.adornParams({})
-      }).then(({ data }) => {
-        this.relationAttrs = data.data;
-      });
+      }).then(({data}) => {
+        this.relationAttrs = data.page
+      })
     },
-    dialogClose() {},
-
-    //========
-    // 获取数据列表
-    getDataList() {
-      this.dataListLoading = true;
+    dialogClose () {
+    },
+    getDataList () {
+      this.dataListLoading = true
       this.$http({
         url: this.$http.adornUrl(
-          "/product/attrgroup/" + this.attrGroupId + "/noattr/relation"
+          '/product/attrgroup/' + this.attrGroupId + '/noattr/relation'
         ),
-        method: "get",
+        method: 'get',
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
           key: this.dataForm.key
         })
-      }).then(({ data }) => {
+      }).then(({data}) => {
         if (data && data.code === 0) {
-          this.dataList = data.page.list;
-          this.totalPage = data.page.totalCount;
+          this.dataList = data.page.list
+          this.totalPage = data.page.totalCount
         } else {
-          this.dataList = [];
-          this.totalPage = 0;
+          this.dataList = []
+          this.totalPage = 0
         }
-        this.dataListLoading = false;
-      });
+        this.dataListLoading = false
+      })
     },
-    // 每页数
-    sizeChangeHandle(val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
+    sizeChangeHandle (val) {
+      this.pageSize = val
+      this.pageIndex = 1
+      this.getDataList()
     },
-    // 当前页
-    currentChangeHandle(val) {
-      this.pageIndex = val;
-      this.getDataList();
+    currentChangeHandle (val) {
+      this.pageIndex = val
+      this.getDataList()
     }
   }
-};
+}
 </script>
-<style scoped>
+<style scoped>
 </style>
