@@ -11,7 +11,7 @@
       </el-form-item>
       <el-form-item label="attrType" prop="attrType">
         <el-select v-model="dataForm.attrType" placeholder="PLEASE SELECT">
-          <el-option label="Specification parameters" :value="1"></el-option>
+          <el-option label="basic attribute" :value="1"></el-option>
           <el-option label="Sale attribute" :value="0"></el-option>
         </el-select>
       </el-form-item>
