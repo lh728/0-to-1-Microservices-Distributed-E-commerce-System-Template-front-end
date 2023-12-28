@@ -9,7 +9,6 @@
               v-for="(group,gidx) in dataResp.attrGroups"
               :key="group.attrGroupId"
             >
-              <!-- 遍历属性,每个tab-pane对应一个表单，每个属性是一个表单项  spu.baseAttrs[0] = [{attrId:xx,val:}]-->
               <el-form ref="form" :model="dataResp">
                 <el-form-item
                   :label="attr.attrName"
