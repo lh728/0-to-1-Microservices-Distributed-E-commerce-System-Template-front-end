@@ -27,21 +27,22 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
-      <el-table-column prop="name" header-align="center" align="center" label="name"></el-table-column>
-      <el-table-column prop="growthPoint" header-align="center" align="center" label="growthPoint"></el-table-column>
-      <el-table-column prop="defaultStatus" header-align="center" align="center" label="defaultLevel">
+      <el-table-column prop="id" header-align="center" align="center" label="id" width="50"></el-table-column>
+      <el-table-column prop="name" header-align="center" align="center" label="name" width="130"></el-table-column>
+      <el-table-column prop="growthPoint" header-align="center" align="center" label="growthPoint" width="120"></el-table-column>
+      <el-table-column prop="defaultStatus" header-align="center" align="center" label="defaultStatus" width="120">
         <template slot-scope="scope">
           <i class="el-icon-success" v-if="scope.row.defaultStatus===1"></i>
           <i class="el-icon-error" v-else></i>
         </template>
       </el-table-column>
-      <el-table-column prop="freeFreightPoint" header-align="center" align="center" label="freeFreightPoint"></el-table-column>
+      <el-table-column prop="freeFreightPoint" header-align="center" align="center" label="freeFreightPoint" width="150"></el-table-column>
       <el-table-column
         prop="commentGrowthPoint"
         header-align="center"
         align="center"
         label="commentGrowthPoint"
+        width="200"
       ></el-table-column>
       <el-table-column label="Privilege" align="center">
         <el-table-column
@@ -49,6 +50,7 @@
           header-align="center"
           align="center"
           label="privilegeFreeFreight"
+          width="200"
         >
           <template slot-scope="scope">
             <i class="el-icon-success" v-if="scope.row.priviledgeFreeFreight===1"></i>
@@ -60,6 +62,7 @@
           header-align="center"
           align="center"
           label="privilegeMemberPrice"
+          width="200"
         >
           <template slot-scope="scope">
             <i class="el-icon-success" v-if="scope.row.priviledgeMemberPrice===1"></i>
@@ -71,6 +74,7 @@
           header-align="center"
           align="center"
           label="privilegeBirthday"
+          width="200"
         >
           <template slot-scope="scope">
             <i class="el-icon-success" v-if="scope.row.priviledgeBirthday===1"></i>
@@ -78,7 +82,7 @@
           </template>
         </el-table-column>
       </el-table-column>
-      <el-table-column prop="note" header-align="center" align="center" label="note"></el-table-column>
+      <el-table-column prop="note" header-align="center" align="center" label="note"  width="200"></el-table-column>
       <el-table-column fixed="right" header-align="center" align="center" width="150" label="action">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">UPDATE</el-button>
