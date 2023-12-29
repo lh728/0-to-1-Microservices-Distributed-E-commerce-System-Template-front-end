@@ -39,7 +39,7 @@ export default {
     },
     paths (v) {
       this.$emit('update:catelogPath', v)
-      this.PubSub.publish('catPath', v)
+      PubSub.publish('catPath', v)
     }
   },
   methods: {
