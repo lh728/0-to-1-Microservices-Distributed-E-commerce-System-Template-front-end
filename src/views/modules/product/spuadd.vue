@@ -390,10 +390,10 @@ export default {
           {required: true, message: 'please choose a brand', trigger: 'blur'}
         ],
         decript: [
-          {required: true, message: 'please upload right decript', trigger: 'blur'}
+          {required: false, message: 'please upload right decript', trigger: 'blur'}
         ],
         images: [
-          {required: true, message: 'please upload right images', trigger: 'blur'}
+          {required: false, message: 'please upload right images', trigger: 'blur'}
         ],
         weight: [
           {
@@ -645,7 +645,7 @@ export default {
           method: 'get',
           params: this.$http.adornParams({})
         }).then(({data}) => {
-          data.data.forEach(item => {
+          data.page.forEach(item => {
             let attrArray = []
             item.attrs.forEach(attr => {
               attrArray.push({
@@ -657,7 +657,7 @@ export default {
             this.dataResp.baseAttrs.push(attrArray)
           })
           this.dataResp.steped[0] = 0
-          this.dataResp.attrGroups = data.data
+          this.dataResp.attrGroups = data.page
         })
       }
     },

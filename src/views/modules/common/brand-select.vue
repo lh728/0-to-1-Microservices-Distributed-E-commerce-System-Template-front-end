@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select placeholder="请选择" v-model="brandId" filterable clearable>
+    <el-select placeholder="Please choose" v-model="brandId" filterable clearable>
       <el-option
         v-for="item in brands"
         :key="item.brandId"
@@ -31,6 +31,7 @@ export default {
   computed: {},
   watch: {
     brandId (val) {
+      // eslint-disable-next-line no-undef
       PubSub.publish('brandId', val)
     }
   },
@@ -48,12 +49,14 @@ export default {
     }
   },
   mounted () {
+    // eslint-disable-next-line no-undef
     this.subscribe = PubSub.subscribe('catPath', (msg, val) => {
       this.catId = val[val.length - 1]
       this.getCatBrands()
     })
   },
   beforeDestroy () {
+    // eslint-disable-next-line no-undef
     PubSub.unsubscribe(this.subscribe)
   }
 }
