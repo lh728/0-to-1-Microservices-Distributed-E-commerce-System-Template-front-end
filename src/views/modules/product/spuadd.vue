@@ -164,33 +164,35 @@
       <el-col :span="24" v-show="step===3">
         <el-card class="box-card" style="width:80%;margin:20px auto">
           <el-table :data="spu.skus" style="width: 100%">
-            <el-table-column label="attribute combination">
+            <el-table-column label="Attribute Combination" align="center">
               <el-table-column
                 :label="item.attrName"
                 v-for="(item,index) in dataResp.tableAttrColumn"
                 :key="item.attrId"
+                width="100"
+                align="center"
               >
                 <template slot-scope="scope">
                   <span style="margin-left: 10px">{{ scope.row.attr[index].attrValue }}</span>
                 </template>
               </el-table-column>
             </el-table-column>
-            <el-table-column label="skuName" prop="skuName">
+            <el-table-column label="skuName" prop="skuName" width="200" align="center">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.skuName"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="skuTitle" prop="skuTitle">
+            <el-table-column label="skuTitle" prop="skuTitle" width="200" align="center">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.skuTitle"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="skuSubtitle" prop="skuSubtitle">
+            <el-table-column label="skuSubtitle" prop="skuSubtitle" width="200" align="center">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.skuSubtitle"></el-input>
               </template>
             </el-table-column>
-            <el-table-column label="price" prop="price">
+            <el-table-column label="price" prop="price" align="center">
               <template slot-scope="scope">
                 <el-input v-model="scope.row.price"></el-input>
               </template>
@@ -254,16 +256,16 @@
                   <el-row>
                     <el-col :span="24">
                       <el-form-item label="Discount">
-                        <label>满</label>
+                        <label>buy</label>
                         <el-input-number
                           style="width:160px"
                           :min="0"
                           controls-position="right"
                           v-model="scope.row.fullCount"
                         ></el-input-number>
-                        <label>件</label>
+                        <label>unit</label>
 
-                        <label style="margin-left:15px;">打</label>
+                        <label style="margin-left:15px;">discount: </label>
                         <el-input-number
                           style="width:160px"
                           v-model="scope.row.discount"
@@ -273,7 +275,6 @@
                           :step="0.01"
                           controls-position="right"
                         ></el-input-number>
-                        <label>折</label>
                         <el-checkbox
                           v-model="scope.row.countStatus"
                           :true-label="1"
@@ -284,7 +285,7 @@
                     </el-col>
                     <el-col :span="24">
                       <el-form-item label="BOGOHO">
-                        <label>满</label>
+                        <label>buy</label>
                         <el-input-number
                           style="width:160px"
                           v-model="scope.row.fullPrice"
@@ -292,8 +293,8 @@
                           :min="0"
                           controls-position="right"
                         ></el-input-number>
-                        <label>元</label>
-                        <label style="margin-left:15px;">减</label>
+                        <label>euros</label>
+                        <label style="margin-left:15px;">minus</label>
                         <el-input-number
                           style="width:160px"
                           v-model="scope.row.reducePrice"
@@ -301,7 +302,7 @@
                           :min="0"
                           controls-position="right"
                         ></el-input-number>
-                        <label>元</label>
+                        <label>euros</label>
                         <el-checkbox
                           v-model="scope.row.priceStatus"
                           :true-label="1"
@@ -312,7 +313,7 @@
                     </el-col>
 
                     <el-col :span="24">
-                      <el-form-item label="memberPrice" v-if="scope.row.memberPrice.length>0">
+                      <el-form-item label="MemberPrice" v-if="scope.row.memberPrice.length>0">
                         <br/>
                         <el-form-item v-for="(mp,mpidx) in scope.row.memberPrice" :key="mp.id">
                           {{ mp.name }}
