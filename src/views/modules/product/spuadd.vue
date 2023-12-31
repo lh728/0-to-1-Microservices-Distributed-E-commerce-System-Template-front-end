@@ -339,7 +339,7 @@
       <el-col :span="24" v-show="step===4">
         <el-card class="box-card" style="width:80%;margin:20px auto">
           <h1>save success</h1>
-          <el-button type="primary" @click="addAgian">keep new</el-button>
+          <el-button type="primary" @click="addAgian">New Another One</el-button>
         </el-card>
       </el-col>
     </el-row>
