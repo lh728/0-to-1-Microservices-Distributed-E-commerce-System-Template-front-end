@@ -2,21 +2,21 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form :inline="true" :model="dataForm">
-        <el-form-item label="分类">
+        <el-form-item label="CATEGORY">
           <category-cascader :catelogPath.sync="catelogPath"></category-cascader>
         </el-form-item>
-        <el-form-item label="品牌">
+        <el-form-item label="BRAND">
           <brand-select style="width:160px"></brand-select>
         </el-form-item>
-        <el-form-item label="价格">
+        <el-form-item label="PRICE">
           <el-input-number style="width:160px" v-model="dataForm.price.min" :min="0"></el-input-number>-
           <el-input-number style="width:160px" v-model="dataForm.price.max" :min="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="检索">
+        <el-form-item label="KEY:">
           <el-input style="width:160px" v-model="dataForm.key" clearable></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="searchSkuInfo">查询</el-button>
+          <el-button type="primary" @click="searchSkuInfo">SEARCH</el-button>
         </el-form-item>
       </el-form>
     </el-form>
@@ -30,49 +30,49 @@
     >
       <el-table-column type="expand">
         <template slot-scope="scope">
-          商品标题：{{scope.row.skuTitle}}
+          skuTitle：{{scope.row.skuTitle}}
           <br />
-          商品副标题：{{scope.row.skuSubtitle}}
+          skuSubtitle：{{scope.row.skuSubtitle}}
           <br />
-          商品描述：{{scope.row.skuDesc}}
+          skuDesc：{{scope.row.skuDesc}}
           <br />
-          分类ID：{{scope.row.catalogId}}
+          catalogId：{{scope.row.catalogId}}
           <br />
           SpuID：{{scope.row.spuId}}
           <br />
-          品牌ID：{{scope.row.brandId}}
+          brandId：{{scope.row.brandId}}
           <br />
         </template>
       </el-table-column>
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
       <el-table-column prop="skuId" header-align="center" align="center" label="skuId"></el-table-column>
-      <el-table-column prop="skuName" header-align="center" align="center" label="名称"></el-table-column>
-      <el-table-column prop="skuDefaultImg" header-align="center" align="center" label="默认图片">
+      <el-table-column prop="skuName" header-align="center" align="center" label="skuName"></el-table-column>
+      <el-table-column prop="skuDefaultImg" header-align="center" align="center" label="skuDefaultImg">
         <template slot-scope="scope">
           <img :src="scope.row.skuDefaultImg" style="width:80px;height:80px;" />
         </template>
       </el-table-column>
-      <el-table-column prop="price" header-align="center" align="center" label="价格"></el-table-column>
-      <el-table-column prop="saleCount" header-align="center" align="center" label="销量"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
+      <el-table-column prop="price" header-align="center" align="center" label="price"></el-table-column>
+      <el-table-column prop="saleCount" header-align="center" align="center" label="saleCount"></el-table-column>
+      <el-table-column fixed="right" header-align="center" align="center" width="150" label="action">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="previewHandle(scope.row.skuId)">预览</el-button>
-          <el-button type="text" size="small" @click="commentHandle(scope.row.skuId)">评论</el-button>
+          <el-button type="text" size="small" @click="previewHandle(scope.row.skuId)">preview</el-button>
+          <el-button type="text" size="small" @click="commentHandle(scope.row.skuId)">comment</el-button>
           <el-dropdown
             @command="handleCommand(scope.row,$event)"
             size="small"
             split-button
             type="text"
           >
-            更多
+            <span>More:</span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="uploadImages">上传图片</el-dropdown-item>
-              <el-dropdown-item command="seckillSettings">参与秒杀</el-dropdown-item>
-              <el-dropdown-item command="reductionSettings">满减设置</el-dropdown-item>
-              <el-dropdown-item command="discountSettings">折扣设置</el-dropdown-item>
-              <el-dropdown-item command="memberPriceSettings">会员价格</el-dropdown-item>
-              <el-dropdown-item command="stockSettings">库存管理</el-dropdown-item>
-              <el-dropdown-item command="couponSettings">优惠劵</el-dropdown-item>
+              <el-dropdown-item command="uploadImages">uploadImages</el-dropdown-item>
+              <el-dropdown-item command="seckillSettings">seckillSettings</el-dropdown-item>
+              <el-dropdown-item command="reductionSettings">reductionSettings</el-dropdown-item>
+              <el-dropdown-item command="discountSettings">discountSettings</el-dropdown-item>
+              <el-dropdown-item command="memberPriceSettings">memberPriceSettings</el-dropdown-item>
+              <el-dropdown-item command="stockSettings">stockSettings</el-dropdown-item>
+              <el-dropdown-item command="couponSettings">couponSettings</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </template>
@@ -91,17 +91,17 @@
 </template>
 
 <script>
-import CategoryCascader from "../common/category-cascader";
-import BrandSelect from "../common/brand-select";
+import CategoryCascader from '../common/category-cascader'
+import BrandSelect from '../common/brand-select'
 export default {
-  data() {
+  data () {
     return {
       catPathSub: null,
       brandIdSub: null,
       dataForm: {
-        key: "",
-        brandId: 0,
-        catelogId: 0,
+        key: '',
+        brandId: '',
+        catelogId: '',
         price: {
           min: 0,
           max: 0
@@ -115,36 +115,31 @@ export default {
       dataListSelections: [],
       addOrUpdateVisible: false,
       catelogPath: []
-    };
+    }
   },
   components: {
     CategoryCascader,
     BrandSelect
   },
-  activated() {
-    this.getDataList();
+  activated () {
+    this.getDataList()
   },
   methods: {
-    getSkuDetails(row, expand) {
-      //sku详情查询
-      console.log("展开某行...", row, expand);
+    getSkuDetails (row, expand) {
     },
-    //处理更多指令
-    handleCommand(row, command) {
-      console.log("~~~~~", row, command);
-      if ("stockSettings" == command) {
-        this.$router.push({ path: "/ware-sku", query: { skuId: row.skuId } });
+    handleCommand (row, command) {
+      if (command === 'stockSettings') {
+        this.$router.push({ path: '/ware-sku', query: { skuId: row.skuId } })
       }
     },
-    searchSkuInfo() {
-      this.getDataList();
+    searchSkuInfo () {
+      this.getDataList()
     },
-    // 获取数据列表
-    getDataList() {
-      this.dataListLoading = true;
+    getDataList () {
+      this.dataListLoading = true
       this.$http({
-        url: this.$http.adornUrl("/product/skuinfo/list"),
-        method: "get",
+        url: this.$http.adornUrl('/product/skuinfo/list'),
+        method: 'get',
         params: this.$http.adornParams({
           page: this.pageIndex,
           limit: this.pageSize,
@@ -156,42 +151,43 @@ export default {
         })
       }).then(({ data }) => {
         if (data && data.code === 0) {
-          this.dataList = data.page.list;
-          this.totalPage = data.page.totalCount;
+          this.dataList = data.page.list
+          this.totalPage = data.page.totalCount
         } else {
-          this.dataList = [];
-          this.totalPage = 0;
+          this.dataList = []
+          this.totalPage = 0
         }
-        this.dataListLoading = false;
-      });
+        this.dataListLoading = false
+      })
     },
-    // 每页数
-    sizeChangeHandle(val) {
-      this.pageSize = val;
-      this.pageIndex = 1;
-      this.getDataList();
+    sizeChangeHandle (val) {
+      this.pageSize = val
+      this.pageIndex = 1
+      this.getDataList()
     },
-    // 当前页
-    currentChangeHandle(val) {
-      this.pageIndex = val;
-      this.getDataList();
+    currentChangeHandle (val) {
+      this.pageIndex = val
+      this.getDataList()
     },
-    // 多选
-    selectionChangeHandle(val) {
-      this.dataListSelections = val;
+    selectionChangeHandle (val) {
+      this.dataListSelections = val
     }
   },
-  mounted() {
-    this.catPathSub = PubSub.subscribe("catPath", (msg, val) => {
-      this.dataForm.catelogId = val[val.length - 1];
-    });
-    this.brandIdSub = PubSub.subscribe("brandId", (msg, val) => {
-      this.dataForm.brandId = val;
-    });
+  mounted () {
+    // eslint-disable-next-line no-undef
+    this.catPathSub = PubSub.subscribe('catPath', (msg, val) => {
+      this.dataForm.catelogId = val[val.length - 1]
+    })
+    // eslint-disable-next-line no-undef
+    this.brandIdSub = PubSub.subscribe('brandId', (msg, val) => {
+      this.dataForm.brandId = val
+    })
   },
-  beforeDestroy() {
-    PubSub.unsubscribe(this.catPathSub);
-    PubSub.unsubscribe(this.brandIdSub);
-  } //生命周期 - 销毁之前
-};
+  beforeDestroy () {
+    // eslint-disable-next-line no-undef
+    PubSub.unsubscribe(this.catPathSub)
+    // eslint-disable-next-line no-undef
+    PubSub.unsubscribe(this.brandIdSub)
+  }
+}
 </script>

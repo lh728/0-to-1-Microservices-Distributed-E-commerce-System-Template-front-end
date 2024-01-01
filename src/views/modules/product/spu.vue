@@ -16,7 +16,7 @@
               <el-option label="REMOVE" :value="2"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="KEY">
+          <el-form-item label="KEY:">
             <el-input style="width:160px" v-model="dataForm.key" clearable></el-input>
           </el-form-item>
           <el-form-item>
@@ -45,8 +45,8 @@ export default {
       dataForm: {
         status: '',
         key: '',
-        brandId: 0,
-        catelogId: 0
+        brandId: '',
+        catelogId: ''
       },
       catPathSub: null,
       brandIdSub: null
