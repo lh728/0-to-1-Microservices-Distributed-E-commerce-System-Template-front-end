@@ -1,16 +1,16 @@
 <template>
   <el-dialog
-    :title="!dataForm.id ? '新增' : '修改'"
+    :title="!dataForm.id ? 'NEW' : 'UPDATE'"
     :close-on-click-modal="false"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="120px">
-    <el-form-item label="优先级" prop="priority">
-      <el-input v-model="dataForm.priority" placeholder="优先级"></el-input>
+    <el-form-item label="priority" prop="priority">
+      <el-input v-model="dataForm.priority" placeholder="priority"></el-input>
     </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button @click="visible = false">CANCEL</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">SAVE</el-button>
     </span>
   </el-dialog>
 </template>
@@ -34,31 +34,31 @@
         },
         dataRule: {
           assigneeId: [
-            { required: true, message: '采购人id不能为空', trigger: 'blur' }
+            { required: true, message: 'assigneeId can not be null', trigger: 'blur' }
           ],
           assigneeName: [
-            { required: true, message: '采购人名不能为空', trigger: 'blur' }
+            { required: true, message: 'assigneeName can not be null', trigger: 'blur' }
           ],
           phone: [
-            { required: true, message: '联系方式不能为空', trigger: 'blur' }
+            { required: true, message: 'phone can not be null', trigger: 'blur' }
           ],
           priority: [
-            { required: true, message: '优先级不能为空', trigger: 'blur' }
+            { required: true, message: 'priority can not be null', trigger: 'blur' }
           ],
           status: [
-            { required: true, message: '状态不能为空', trigger: 'blur' }
+            { required: true, message: 'status can not be null', trigger: 'blur' }
           ],
           wareId: [
-            { required: true, message: '仓库id不能为空', trigger: 'blur' }
+            { required: true, message: 'wareId can not be null', trigger: 'blur' }
           ],
           amount: [
-            { required: true, message: '总金额不能为空', trigger: 'blur' }
+            { required: true, message: 'amount can not be null', trigger: 'blur' }
           ],
           createTime: [
-            { required: true, message: '创建日期不能为空', trigger: 'blur' }
+            { required: true, message: 'createTime can not be null', trigger: 'blur' }
           ],
           updateTime: [
-            { required: true, message: '更新日期不能为空', trigger: 'blur' }
+            { required: true, message: 'updateTime can not be null', trigger: 'blur' }
           ]
         }
       }
@@ -71,7 +71,7 @@
           this.$refs['dataForm'].resetFields()
           if (this.dataForm.id) {
             this.$http({
-              url: this.$http.adornUrl(`/ware/purchase/info/${this.dataForm.id}`),
+              url: this.$http.adornUrl(`/warehouse/purchase/info/${this.dataForm.id}`),
               method: 'get',
               params: this.$http.adornParams()
             }).then(({data}) => {
@@ -90,12 +90,11 @@
           }
         })
       },
-      // 表单提交
       dataFormSubmit () {
         this.$refs['dataForm'].validate((valid) => {
           if (valid) {
             this.$http({
-              url: this.$http.adornUrl(`/ware/purchase/${!this.dataForm.id ? 'save' : 'update'}`),
+              url: this.$http.adornUrl(`/warehouse/purchase/${!this.dataForm.id ? 'save' : 'update'}`),
               method: 'post',
               data: this.$http.adornData({
                 'id': this.dataForm.id || undefined,
@@ -112,7 +111,7 @@
             }).then(({data}) => {
               if (data && data.code === 0) {
                 this.$message({
-                  message: '操作成功',
+                  message: 'success',
                   type: 'success',
                   duration: 1500,
                   onClose: () => {
