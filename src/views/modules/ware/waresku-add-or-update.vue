@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="!dataForm.id ? '新增' : '修改'"
+    :title="!dataForm.id ? 'NEW' : 'UPDATE'"
     :close-on-click-modal="false"
     :visible.sync="visible"
   >
@@ -14,101 +14,100 @@
       <el-form-item label="sku_id" prop="skuId">
         <el-input v-model="dataForm.skuId" placeholder="sku_id"></el-input>
       </el-form-item>
-      <el-form-item label="仓库" prop="wareId">
-        <el-select v-model="dataForm.wareId" placeholder="请选择仓库" clearable>
+      <el-form-item label="wareId" prop="wareId">
+        <el-select v-model="dataForm.wareId" placeholder="Please choose warehouse" clearable>
           <el-option :label="w.name" :value="w.id" v-for="w in wareList" :key="w.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="库存数" prop="stock">
-        <el-input v-model="dataForm.stock" placeholder="库存数"></el-input>
+      <el-form-item label="stock" prop="stock">
+        <el-input v-model="dataForm.stock" placeholder="stock"></el-input>
       </el-form-item>
       <el-form-item label="sku_name" prop="skuName">
         <el-input v-model="dataForm.skuName" placeholder="sku_name"></el-input>
       </el-form-item>
-      <el-form-item label="锁定库存" prop="stockLocked">
-        <el-input v-model="dataForm.stockLocked" placeholder="锁定库存"></el-input>
+      <el-form-item label="stockLocked" prop="stockLocked">
+        <el-input v-model="dataForm.stockLocked" placeholder="stockLocked"></el-input>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()">确定</el-button>
+      <el-button @click="visible = false">CANCEL</el-button>
+      <el-button type="primary" @click="dataFormSubmit()">SAVE</el-button>
     </span>
   </el-dialog>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       visible: false,
       wareList: [],
       dataForm: {
         id: 0,
-        skuId: "",
-        wareId: "",
+        skuId: '',
+        wareId: '',
         stock: 0,
-        skuName: "",
+        skuName: '',
         stockLocked: 0
       },
       dataRule: {
-        skuId: [{ required: true, message: "sku_id不能为空", trigger: "blur" }],
+        skuId: [{ required: true, message: 'sku_id can not be null', trigger: 'blur' }],
         wareId: [
-          { required: true, message: "仓库id不能为空", trigger: "blur" }
+          { required: true, message: 'wareId can not be null', trigger: 'blur' }
         ],
-        stock: [{ required: true, message: "库存数不能为空", trigger: "blur" }],
+        stock: [{ required: true, message: 'stock can not be null', trigger: 'blur' }],
         skuName: [
-          { required: true, message: "sku_name不能为空", trigger: "blur" }
+          { required: true, message: 'sku_name ku_id can not be null', trigger: 'blur' }
         ]
       }
-    };
+    }
   },
-  created(){
-    this.getWares();
+  created () {
+    this.getWares()
   },
   methods: {
-    getWares() {
+    getWares () {
       this.$http({
-        url: this.$http.adornUrl("/ware/wareinfo/list"),
-        method: "get",
+        url: this.$http.adornUrl('/warehouse/wareinfo/list'),
+        method: 'get',
         params: this.$http.adornParams({
           page: 1,
           limit: 500
         })
       }).then(({ data }) => {
-        this.wareList = data.page.list;
-      });
+        this.wareList = data.page.list
+      })
     },
-    init(id) {
-      this.dataForm.id = id || 0;
-      this.visible = true;
+    init (id) {
+      this.dataForm.id = id || 0
+      this.visible = true
       this.$nextTick(() => {
-        this.$refs["dataForm"].resetFields();
+        this.$refs['dataForm'].resetFields()
         if (this.dataForm.id) {
           this.$http({
-            url: this.$http.adornUrl(`/ware/waresku/info/${this.dataForm.id}`),
-            method: "get",
+            url: this.$http.adornUrl(`/warehouse/waresku/info/${this.dataForm.id}`),
+            method: 'get',
             params: this.$http.adornParams()
           }).then(({ data }) => {
             if (data && data.code === 0) {
-              this.dataForm.skuId = data.wareSku.skuId;
-              this.dataForm.wareId = data.wareSku.wareId;
-              this.dataForm.stock = data.wareSku.stock;
-              this.dataForm.skuName = data.wareSku.skuName;
-              this.dataForm.stockLocked = data.wareSku.stockLocked;
+              this.dataForm.skuId = data.wareSku.skuId
+              this.dataForm.wareId = data.wareSku.wareId
+              this.dataForm.stock = data.wareSku.stock
+              this.dataForm.skuName = data.wareSku.skuName
+              this.dataForm.stockLocked = data.wareSku.stockLocked
             }
-          });
+          })
         }
-      });
+      })
     },
-    // 表单提交
-    dataFormSubmit() {
-      this.$refs["dataForm"].validate(valid => {
+    dataFormSubmit () {
+      this.$refs['dataForm'].validate(valid => {
         if (valid) {
           this.$http({
             url: this.$http.adornUrl(
-              `/ware/waresku/${!this.dataForm.id ? "save" : "update"}`
+              `/warehouse/waresku/${!this.dataForm.id ? 'save' : 'update'}`
             ),
-            method: "post",
+            method: 'post',
             data: this.$http.adornData({
               id: this.dataForm.id || undefined,
               skuId: this.dataForm.skuId,
@@ -120,21 +119,21 @@ export default {
           }).then(({ data }) => {
             if (data && data.code === 0) {
               this.$message({
-                message: "操作成功",
-                type: "success",
+                message: 'success',
+                type: 'success',
                 duration: 1500,
                 onClose: () => {
-                  this.visible = false;
-                  this.$emit("refreshDataList");
+                  this.visible = false
+                  this.$emit('refreshDataList')
                 }
-              });
+              })
             } else {
-              this.$message.error(data.msg);
+              this.$message.error(data.msg)
             }
-          });
+          })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
