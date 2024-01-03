@@ -101,6 +101,7 @@ export default {
       })
     },
     dataFormSubmit () {
+      console.log(this.dataForm)
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
           this.$http({
@@ -121,7 +122,7 @@ export default {
               this.$message({
                 message: 'success',
                 type: 'success',
-                duration: 1500,
+                duration: 500,
                 onClose: () => {
                   this.visible = false
                   this.$emit('refreshDataList')

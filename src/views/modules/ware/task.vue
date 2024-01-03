@@ -2,12 +2,12 @@
   <div class="mod-config">
     <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
       <el-form-item>
-        <el-input v-model="dataForm.key" placeholder="参数名" clearable></el-input>
+        <el-input v-model="dataForm.key" placeholder="keyword" clearable></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button @click="getDataList()">查询</el-button>
-        <el-button v-if="isAuth('ware:wareordertask:save')" type="primary" @click="addOrUpdateHandle()">新增</el-button>
-        <el-button v-if="isAuth('ware:wareordertask:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">批量删除</el-button>
+        <el-button @click="getDataList()">SEARCH</el-button>
+        <el-button v-if="isAuth('ware:wareordertask:save')" type="primary" @click="addOrUpdateHandle()">NEW</el-button>
+        <el-button v-if="isAuth('ware:wareordertask:delete')" type="danger" @click="deleteHandle()" :disabled="dataListSelections.length <= 0">BATCH DEL</el-button>
       </el-form-item>
     </el-form>
     <el-table
@@ -38,87 +38,98 @@
         prop="orderSn"
         header-align="center"
         align="center"
-        label="order_sn">
+        label="order_sn"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="consignee"
         header-align="center"
         align="center"
-        label="收货人">
+        label="consignee"
+        width="100">
       </el-table-column>
       <el-table-column
         prop="consigneeTel"
         header-align="center"
         align="center"
-        label="收货人电话">
+        label="consigneeTel"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="deliveryAddress"
         header-align="center"
         align="center"
-        label="配送地址">
+        label="deliveryAddress"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="orderComment"
         header-align="center"
         align="center"
-        label="订单备注">
+        label="orderComment"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="paymentWay"
         header-align="center"
         align="center"
-        label="付款方式">
+        label="paymentWay"
+        width="150">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.payment==1">在线付款</el-tag>
-          <el-tag v-if="scope.row.payment==2">货到付款</el-tag>
+          <el-tag v-if="scope.row.payment===1">ONLINE PAY</el-tag>
+          <el-tag v-if="scope.row.payment===2">CASH DELIVERY</el-tag>
         </template>
       </el-table-column>
       <el-table-column
         prop="taskStatus"
         header-align="center"
         align="center"
-        label="任务状态">
+        label="taskStatus"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="orderBody"
         header-align="center"
         align="center"
-        label="订单描述">
+        label="orderBody"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="trackingNo"
         header-align="center"
         align="center"
-        label="物流单号">
+        label="trackingNo"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="createTime"
         header-align="center"
         align="center"
-        label="create_time">
+        label="create_time"
+        width="150">
       </el-table-column>
       <el-table-column
         prop="wareId"
         header-align="center"
         align="center"
-        label="仓库id">
+        label="wareId">
       </el-table-column>
       <el-table-column
         prop="taskComment"
         header-align="center"
         align="center"
-        label="工作单备注">
+        label="taskComment"
+        width="150">
       </el-table-column>
       <el-table-column
         fixed="right"
         header-align="center"
         align="center"
         width="150"
-        label="操作">
+        label="ACTION">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">修改</el-button>
-          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
+          <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row.id)">UPDATE</el-button>
+          <el-button type="text" size="small" @click="deleteHandle(scope.row.id)">DELETE</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -131,7 +142,6 @@
       :total="totalPage"
       layout="total, sizes, prev, pager, next, jumper">
     </el-pagination>
-    <!-- 弹窗, 新增 / 修改 -->
     <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
   </div>
 </template>
@@ -160,11 +170,10 @@
       this.getDataList()
     },
     methods: {
-      // 获取数据列表
       getDataList () {
         this.dataListLoading = true
         this.$http({
-          url: this.$http.adornUrl('/ware/wareordertask/list'),
+          url: this.$http.adornUrl('/warehouse/wareordertask/list'),
           method: 'get',
           params: this.$http.adornParams({
             'page': this.pageIndex,
@@ -182,46 +191,41 @@
           this.dataListLoading = false
         })
       },
-      // 每页数
       sizeChangeHandle (val) {
         this.pageSize = val
         this.pageIndex = 1
         this.getDataList()
       },
-      // 当前页
       currentChangeHandle (val) {
         this.pageIndex = val
         this.getDataList()
       },
-      // 多选
       selectionChangeHandle (val) {
         this.dataListSelections = val
       },
-      // 新增 / 修改
       addOrUpdateHandle (id) {
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
         })
       },
-      // 删除
       deleteHandle (id) {
         var ids = id ? [id] : this.dataListSelections.map(item => {
           return item.id
         })
-        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+        this.$confirm(`are you sure to delete the selected ${ids.length} items?`, 'HINT', {
+          confirmButtonText: 'YES',
+          cancelButtonText: 'CANCEL',
           type: 'warning'
         }).then(() => {
           this.$http({
-            url: this.$http.adornUrl('/ware/wareordertask/delete'),
+            url: this.$http.adornUrl('/warehouse/wareordertask/delete'),
             method: 'post',
             data: this.$http.adornData(ids, false)
           }).then(({data}) => {
             if (data && data.code === 0) {
               this.$message({
-                message: '操作成功',
+                message: 'success',
                 type: 'success',
                 duration: 1500,
                 onClose: () => {
