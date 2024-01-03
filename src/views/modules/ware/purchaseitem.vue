@@ -136,7 +136,7 @@ export default {
       })
       if (!this.purchaseId) {
         this.$confirm(
-          'Are you sure to merge the selected requirements into the first requirement?',
+          'you dont have choose any purchase order, A new order will be automatically created for merging, are you sure?',
           'HINT',
           {
             confirmButtonText: 'YES',
