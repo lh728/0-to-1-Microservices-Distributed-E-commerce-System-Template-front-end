@@ -30,7 +30,7 @@
             type="text"
             size="small"
             @click="productUp(scope.row.id)"
-          >List New</el-button>
+          >to list</el-button>
           <el-button type="text" size="small" @click="attrUpdateShow(scope.row)">Specification</el-button>
         </template>
       </el-table-column>
